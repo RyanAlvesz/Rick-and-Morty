@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.rickyandmorty.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import br.senai.sp.jandira.rickyandmorty.model.Character
 import br.senai.sp.jandira.rickyandmorty.model.Result
 import br.senai.sp.jandira.rickyandmorty.service.RetrofitFactory
@@ -36,7 +38,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 @Composable
-fun CharactersList() {
+fun CharactersList(navigationController: NavHostController) {
 
     var characterList by remember {
         mutableStateOf(listOf<Character>())
@@ -74,7 +76,7 @@ fun CharactersList() {
             Spacer(modifier = Modifier.height(32.dp))
             LazyColumn {
                 items(characterList){
-                    CharacterCard(character = it)
+                    CharacterCard(character = it, navigationController)
                 }
             }
 
@@ -83,12 +85,13 @@ fun CharactersList() {
 }
 
 @Composable
-fun CharacterCard(character: Character) {
+fun CharacterCard(character: Character, navigationController: NavHostController) {
     Card(
         modifier = Modifier
             .padding(bottom = 12.dp)
             .fillMaxWidth()
-            .height(80.dp),
+            .height(80.dp)
+            .clickable { navigationController.navigate("characterDetails/${character.id}") },
         colors = CardDefaults.cardColors(containerColor = Color(0xff122345))
     ) {
         Row (
@@ -113,9 +116,10 @@ fun CharacterCard(character: Character) {
                 Text(
                     text = character.name,
                     fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
                 )
-                Text(text = character.species)
+                Text(text = character.species, color = Color.White)
             }
         }
     }
@@ -124,5 +128,5 @@ fun CharacterCard(character: Character) {
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 private fun CharactersListPreview() {
-    CharactersList()
+//    CharactersList()
 }
