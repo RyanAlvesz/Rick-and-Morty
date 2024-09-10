@@ -1,0 +1,13 @@
+package br.senai.sp.jandira.rickyandmorty.service
+
+import br.senai.sp.jandira.rickyandmorty.model.Episode
+import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Path
+
+interface EpisodeService {
+
+    @GET("episode/{ids}/")
+    fun getEpisodesByIds (@Path("ids") id: String) : Call<List<Episode>>
+
+}

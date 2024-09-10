@@ -7,7 +7,7 @@ data class Character(
     val species: String = "",
     val type: String = "",
     val gender: String = "",
-    val origin: Origin? = null,
+    val origin: Origin = Origin(),
     val location: Location? = null,
     val image: String = "",
     val episodes: List<String>? = null,
