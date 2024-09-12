@@ -1,6 +1,7 @@
 package br.senai.sp.jandira.rickyandmorty.screens
 
 import android.graphics.drawable.shapes.Shape
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -39,6 +40,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import br.senai.sp.jandira.rickyandmorty.model.Character
+import br.senai.sp.jandira.rickyandmorty.model.Episode
+import br.senai.sp.jandira.rickyandmorty.model.EpisodesList
 import br.senai.sp.jandira.rickyandmorty.model.Result
 import br.senai.sp.jandira.rickyandmorty.service.RetrofitFactory
 import coil.compose.AsyncImage

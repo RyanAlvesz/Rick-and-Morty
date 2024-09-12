@@ -7,7 +7,7 @@ data class Episode(
     val name: String = "",
     @SerializedName("air_date") val airDate: String = "",
     val episode: String = "",
-    val characters: List<Character>,
+    val characters: List<String>,
     val url: String = "",
     val created: String = ""
 )

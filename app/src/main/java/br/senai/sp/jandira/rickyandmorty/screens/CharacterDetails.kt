@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -31,7 +32,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -78,13 +81,16 @@ fun CharacterDetails(navigationController: NavHostController, characterId : Stri
     val callEpisodes = RetrofitFactory()
         .getEpisodeService()
         .getEpisodesByCharacter(episodesIdList.dropLast(1))
+    val url = callEpisodes.request().url.toString()
+    Log.i("url", "CharacterDetails: $url")
 
-    callEpisodes.enqueue(object : Callback<EpisodesList> {
-        override fun onResponse(p0: Call<EpisodesList>, response: Response<EpisodesList>) {
-            episodesList = response.body()!!.episodesList
+
+    callEpisodes.enqueue(object : Callback<List<Episode>> {
+        override fun onResponse(p0: Call<List<Episode>>, response: Response<List<Episode>>) {
+            episodesList = response.body()!!
         }
 
-        override fun onFailure(p0: Call<EpisodesList>, p1: Throwable) {
+        override fun onFailure(p0: Call<List<Episode>>, p1: Throwable) {
         }
 
     })
@@ -193,12 +199,11 @@ fun CharacterDetails(navigationController: NavHostController, characterId : Stri
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
-                Log.i("Lista", "CharacterDetails: $episodesIdList")
-                Log.i("Lista", "CharacterDetails: $episodesList")
+
                 LazyColumn {
-//                    items(episodesList){
-//                        Text(it.name)
-//                    }
+                    items(episodesList){
+                        EpisodeCard(it)
+                    }
                 }
 
             }
@@ -212,7 +217,7 @@ fun CharacterDetails(navigationController: NavHostController, characterId : Stri
 @Composable
 fun EpisodeCard(episode: Episode) {
 
-    ElevatedCard(
+    Card(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 12.dp,
             hoveredElevation = 36.dp
@@ -225,15 +230,36 @@ fun EpisodeCard(episode: Episode) {
     ) {
         Row (
             verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 12.dp)
+                .fillMaxSize()
+                .padding(12.dp)
         ) {
-            Column {
-                Text(text = episode.name)
-                Text(text = episode.airDate)
+            Column (
+                modifier = Modifier
+                    .weight(4f,true)
+            ) {
+                Text(
+                    text = episode.name,
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    text = episode.episode,
+                    color = Color.White,
+                    fontStyle = FontStyle.Italic
+                )
             }
-            Text(text = episode.created)
+            Spacer(modifier = Modifier.width(12.dp))
+            Text(
+                text = episode.airDate,
+                color = Color.White,
+                modifier = Modifier
+                    .weight(2f, true)
+            )
         }
     }
 
