@@ -40,7 +40,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import br.senai.sp.jandira.rickyandmorty.model.Character
 import br.senai.sp.jandira.rickyandmorty.model.Episode
-import br.senai.sp.jandira.rickyandmorty.model.EpisodesList
 import br.senai.sp.jandira.rickyandmorty.service.RetrofitFactory
 import coil.compose.AsyncImage
 import retrofit2.Call
